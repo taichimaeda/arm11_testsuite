@@ -31,6 +31,8 @@ end
 if $0 == __FILE__ then
   # TODO parse arguments (such as port, emulate assemble path)
 
+  Dir.chdir(File.dirname(__FILE__))
+
   emulate_assemble_path = nil
   port = DEFAULT_PORT
 
@@ -55,7 +57,7 @@ Usage: testserver.rb emulate_assemble_path [port]
     exit 0
   end
 
-  system_mime_table = WEBrick::HTTPUtils::load_mime_types('/etc/mime.types')
+  system_mime_table = WEBrick::HTTPUtils::load_mime_types('./mime.types')
   my_mime_table = system_mime_table.update({ "js" => "application/javascript" })
 
   puts "*******************************************************"
@@ -64,7 +66,7 @@ Usage: testserver.rb emulate_assemble_path [port]
   puts "*******************************************************"
 
   start_webrick(:DocumentRoot => STATIC_PATH,
-                :MimeTypes => my_mime_table,
+                # :MimeTypes => my_mime_table,
                :Port => port) do |server|
 
     # add servlets
