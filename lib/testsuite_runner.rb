@@ -2,6 +2,7 @@ class TestSuiteRunner
 
   require 'thread'
   require 'testsuite'
+  require 'pp'
 
   def initialize(test_cases_path, emulate_assemble_path)
     @mutex = Mutex.new
@@ -84,6 +85,7 @@ class TestSuiteRunner
     Thread.new do
       begin
         @test_suite.run_test(test_case) do |result|
+          pp result[:result]
           @test_results[result[:source]] = result[:result]
         end
       rescue => e
